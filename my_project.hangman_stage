@@ -1,0 +1,100 @@
+import random
+
+# اختيار كلمة عشوائية
+words = ["python", "developer", "hangman", "programming"]
+secret_word = random.choice(words)
+display_word = ["_"] * len(secret_word)
+attempts = 6  # عدد المحاولات
+
+# مراحل المشنقة
+hangman_stages = [
+    """
+       ------
+       |    |
+            |
+            |
+            |
+            |
+    =========
+    """,
+    """
+       ------
+       |    |
+       O    |
+            |
+            |
+            |
+    =========
+    """,
+    """
+       ------
+       |    |
+       O    |
+       |    |
+            |
+            |
+    =========
+    """,
+    """
+       ------
+       |    |
+       O    |
+      /|    |
+            |
+            |
+    =========
+    """,
+    """
+       ------
+       |    |
+       O    |
+      /|\\   |
+            |
+            |
+    =========
+    """,
+    """
+       ------
+       |    |
+       O    |
+      /|\\   |
+      /     |
+            |
+    ========
+    """,
+    """
+       ------
+       |    |
+       O    |
+      /|\\   |
+      / \\   |
+            |
+    =========
+    """
+]
+
+print("مرحبًا بك في لعبة Hangman!")
+print(" ".join(display_word))  # طباعة الكلمة مع المسافات
+
+while attempts > 0:
+    print(hangman_stages[6 - attempts])  # عرض المرحلة الحالية للمشنقة
+    guess = input("تخمين حرف: ").lower()
+    
+    if len(guess) != 1 or not guess.isalpha():
+        print("يرجى إدخال حرف واحد فقط.")
+        continue
+
+    if guess in secret_word:
+        print(f"صحيح! الحرف '{guess}' موجود في الكلمة.")
+        for i in range(len(secret_word)):
+            if secret_word[i] == guess:
+                display_word[i] = guess
+    else:
+        attempts -= 1
+        print(f"خطأ! الحرف '{guess}' غير موجود. تبقى لديك {attempts} محاولات.")
+    
+    print(" ".join(display_word))  # طباعة الكلمة بعد التحديث
+
+else:
+    print(hangman_stages[6])  # عرض المرحلة الأخيرة للمشنقة
+    print(f"للأسف، لقد خسرت. الكلمة كانت: {secret_word}")
